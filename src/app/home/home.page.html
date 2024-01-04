@@ -1,20 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<router-outlet>
+  <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title>
+        Citas
+      </ion-title>
+      <ion-button  routerLink="/configuraciones" slot="end"  color="white">
+        <img  src="https://cdn-icons-png.flaticon.com/512/484/484664.png" style="width: 15px; height: 15px;">
+      </ion-button>
     </ion-toolbar>
   </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <ion-content [fullscreen]="true">
+    <ion-item *ngIf="citaAle" style="background-color:rgb(82, 82, 82); margin-top: 200px;">
+      <h1>
+        <br>
+        {{ citaAle.Frase }}
+      </h1>
+      <h2>
+        {{ citaAle.Autor }}
+      </h2>
+    </ion-item>
+    <button  routerLink="/citas" style="border-radius:50%;height:50px;width:50px;position:absolute;bottom:75px;right:10px;background-color:cornflowerblue;">
+      +
+    </button>
+  </ion-content>
+<script type="module" src="src\assets\jeep-sqlite.js"></script>
+</router-outlet>

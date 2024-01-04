@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { CitasComponent } from './citas/citas.component';
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 
 export const routes: Routes = [
   {
@@ -10,4 +12,12 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'citas',
+    component:CitasComponent
+  },
+  {
+    path: 'configuraciones',
+    component:ConfiguracionesComponent
+  }
 ];

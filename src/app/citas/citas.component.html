@@ -1,0 +1,51 @@
+<router-outlet>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button  defaultHref="/home"></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        Gestión de citas
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content  fullscreen="true">
+    <ion-card>
+      <h1>
+        Crea una nueva cita
+      </h1>
+      <form [formGroup]="citaForm">
+        <ion-item style="margin-top: 20px;">
+          <ion-label>Cita</ion-label>
+          <ion-input  type="text" formControlName="cita"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Autor</ion-label>
+          <ion-input  type="text" formControlName="autor"></ion-input>
+        </ion-item>
+        <ion-button  fill="clear" style="margin-top: 30px;color: aqua;">
+          AGREGAR +
+        </ion-button>
+      </form> 
+    </ion-card>
+    <ion-list>
+    <ion-item-sliding *ngFor="let cita of this.listaCitas">
+      <ion-item>
+        <h1>
+          <br>
+          {{cita.Frase}}
+        </h1>
+        <h2>
+          {{cita.Autor}}
+        </h2>
+      </ion-item>
+      <ion-item-options slot="end">
+        <ion-item-option color="blue" expandable="true">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  </ion-content>
+</router-outlet>
+

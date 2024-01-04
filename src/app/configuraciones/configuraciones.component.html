@@ -1,0 +1,19 @@
+<router-outlet>
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>
+        Configuraciones
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content  fullscreen="true">
+    <ion-card>
+      <div  style="display: flex;justify-content: space-between;align-items: center;">
+        <h1 style="font-size: 20px;">
+          Permitir eliminar citas en el inicio
+        </h1>
+        <ion-toggle style="position:absolute;right:10px;" [(ngModel)]="config.citasInicio" (ngModelChange)="onChange()"></ion-toggle>
+      </div>   
+    </ion-card>
+  </ion-content>
+</router-outlet>
