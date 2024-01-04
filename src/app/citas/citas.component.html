@@ -1,51 +1,48 @@
-<router-outlet>
-  <ion-header translucent="true">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button  defaultHref="/home"></ion-back-button>
-      </ion-buttons>
-      <ion-title>
-        Gestión de citas
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content  fullscreen="true">
-    <ion-card>
-      <h1>
+<router-outlet></router-outlet>
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Gestión de citas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
         Crea una nueva cita
-      </h1>
-      <form [formGroup]="citaForm">
-        <ion-item style="margin-top: 20px;">
-          <ion-label>Cita</ion-label>
-          <ion-input  type="text" formControlName="cita"></ion-input>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="citaForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-textarea label="Cita" formControlName="Frase"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-label>Autor</ion-label>
-          <ion-input  type="text" formControlName="autor"></ion-input>
+          <ion-input label="Autor" formControlName="Autor"></ion-input>
         </ion-item>
-        <ion-button  fill="clear" style="margin-top: 30px;color: aqua;">
-          AGREGAR +
-        </ion-button>
-      </form> 
-    </ion-card>
-    <ion-list>
-    <ion-item-sliding *ngFor="let cita of this.listaCitas">
+      </form>
+      <ion-button type="submit" class="boton-agregar" [disabled]="!citaForm.valid">
+        AGREGAR +
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-list>
+    <ion-item-sliding *ngFor="let cita of listaCitas">
       <ion-item>
-        <h1>
-          <br>
-          {{cita.Frase}}
-        </h1>
-        <h2>
-          {{cita.Autor}}
-        </h2>
+        <ion-label class="ion-text-wrap">
+          <h2>{{ cita.Frase }}</h2>
+          <p>{{ cita.Autor }}</p>
+        </ion-label>
+        <ion-button (click)="eliminarCita(cita.id)">
+          🗑️
+        </ion-button>
       </ion-item>
-      <ion-item-options slot="end">
-        <ion-item-option color="blue" expandable="true">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  </ion-content>
-</router-outlet>
+</ion-content>
 

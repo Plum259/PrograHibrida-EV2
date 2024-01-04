@@ -1,15 +1,20 @@
-import { Component} from '@angular/core';
+import { Component, OnInit,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { IonHeader,IonButton,IonItem, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { CitasComponent } from '../citas/citas.component';
 import { ConfiguracionesComponent } from '../configuraciones/configuraciones.component';
 import { RouterModule,Route } from '@angular/router';
-import { SqLiteService } from '../sq-lite.service';
+import { SqLiteService } from '../service/sq-lite.service';
+import {SQLiteChanges, defineCustomElements as jeepSqlite} from 'jeep-sqlite/loader'
 import { CommonModule } from '@angular/common';
+import { CitasSvcService } from '../service/citas-svc.service';
+import { Preferences } from '@capacitor/preferences';
 
 
-export class Cita
+export interface Cita
 {
-  constructor(public id:Number,public Frase:string,public Autor:string) {}
+  id?:number
+  Frase:string
+  Autor:string
 }
 
 @Component({
@@ -18,37 +23,33 @@ export class Cita
   styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [IonHeader,IonButton,IonItem,IonToolbar, IonTitle, IonContent,CitasComponent,ConfiguracionesComponent,RouterModule,CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HomePage {
+export class HomePage implements OnInit{
   citas:Cita[] = []
-  citaAle?:Cita;
-  constructor(private dbService: SqLiteService) {}
-  async ngOnInit() {
-    await this.dbService.iniciarPlugin()
-    await this.actualizar()
-    await this.loadCitaAleatoria();
-  }
-  async loadCitaAleatoria() 
+  citaAleatoria:Cita | null = null;
+  mostrarCitas:boolean = true; 
+  constructor(private citasSvcService: CitasSvcService) {}
+
+  ngOnInit() 
   {
-    try{
-      const citaAleatoria = await this.dbService.getCitaAleatoria();
-      if (citaAleatoria)
-      {
-        this.citaAle = citaAleatoria;
-      }
-      else{
-        console.error('No se puede cargar una cita aleatoria');
-      }
-    } catch(error){
-      console.error('Error al cargar una cita aleatoria:',error);
+    this.cargarCitas();
+  }
+  cargarCitas(){
+    this.citas = this.citasSvcService.getCitas();
+    if (this.citas && this.citas.length > 0) {
+      this.obtenerCitaAleatoria();
     }
   }
-  async ngOnDestroy()
-  {
-    await this.dbService.cerrarConexion();
+  obtenerCitaAleatoria() {
+    const indiceAleatorio = Math.floor(Math.random() * this.citas.length);
+    this.citaAleatoria = this.citas[indiceAleatorio];
   }
-  async actualizar()
-  {
-    this.citas = await this.dbService.getCitas()
+  async cargarConfiguracion(){
+    const configStr: string|null = (await Preferences.get({key: 'configuraciones'})).value;
+    if(configStr){
+      const config = JSON.parse(configStr);
+      this.mostrarCitas = !config.citasInicio;
+    }
   }
   }

@@ -1,0 +1,17 @@
+.boton-agregar
+{
+  --background: #ffffff;
+  --color: #00e1ff;
+  margin-top: 16px;
+  font-weight: bold; 
+}
+ion-item{
+    --padding-end:0;
+}
+ion-label{
+    flex-grow: 1;
+}
+ion-button{
+    margin-right: 50px;
+    --background:var(--background)
+}
